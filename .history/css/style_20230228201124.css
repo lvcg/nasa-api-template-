@@ -13,17 +13,12 @@ body {
 }
 
 p {
-  position: relative;
-  bottom: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px #888888;
-  width: 50%;
-  margin: 30px auto;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
 }
-
 
 
 img {
