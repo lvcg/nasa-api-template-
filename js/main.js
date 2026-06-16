@@ -20,7 +20,7 @@ const mediaDate = document.querySelector('#media-date-display');
 const mediaType = document.querySelector('#media-type');
 const mediaCopyright = document.querySelector('#media-copyright');
 const mediaExplanation = document.querySelector('#media-explanation');
-const charCount = document.querySelector('#char-count');
+
 
 const image = document.querySelector('#nasa-media');
 const videoMessage = document.querySelector('#video-message');
