@@ -5,29 +5,61 @@
     <meta name="description" content="A simple Picture of the Day app using NASA's API">
     <meta name="keywords" content="NASA, API, Picture of the Day, Astronomy, Space">
 
-    <title>Nasa Media of the day</title>
+    <h1>🚀 NASA Astronomy Picture of the Day</h1>
 
     <!-- external CSS link -->
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-    <div class="container">
-      <h1>Media of the Day</h1>
-      <p>The NASA Media of the Day API is a powerful tool for accessing and displaying stunning images, videos, and audio content from various NASA missions and programs. The API provides developers with a simple and efficient way to retrieve media content from the NASA Image and Video Library, which contains over 140,000 media assets. By leveraging this API, developers can create engaging applications and websites that showcase the beauty and wonder of the universe, and inspire viewers to learn more about space exploration and scientific discovery. Whether you're a stargazer, a space enthusiast, or a developer looking to incorporate NASA's media content into your projects, the Media of the Day API is an excellent resource for accessing and sharing the incredible media content from NASA's missions and programs.</p>
-      <input type="date" name="">
-      <button type="button">Get Media</button>
-      
-      <h2>Media of the Day</h2>
-      
-      <img id="nasa-media" onclick="removeImage()" src="" alt="">
-      
-      <iframe src="" frameborder="0"></iframe>
-      <div class="text-block">
-        <h3>Explanation</h3>
-      </div>
+    <main class="container">
+
+  <header>
+    <h1>NASA Astronomy Picture of the Day</h1>
+    <p>
+      Explore NASA's daily featured image and story.
+    </p>
+  </header>
+
+  <section class="controls">
+    <label for="media-date">
+      Select a Date
+    </label>
+
+    <input type="date" id="media-date">
+
+    <button>
+      View NASA Media
+    </button>
+  </section>
+
+  <section class="media-display">
+
+    <div id="loading" hidden>
+      Loading...
     </div>
-    <script type="text/javascript" src="js/main.js"></script>
-  </body>
+
+    <img
+      id="nasa-media"
+      hidden
+      alt="NASA Media">
+
+    <iframe
+      id="nasa-video"
+      hidden
+      title="NASA Video">
+    </iframe>
+
+    <h2 id="media-title"></h2>
+
+    <div id="media-explanation"></div>
+
+  </section>
+
+  <footer>
+    Powered by NASA Open APIs
+  </footer>
+
+</main>
 </html>
 
