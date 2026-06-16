@@ -1,194 +1,111 @@
 <!DOCTYPE html>
 
 <html lang="en">
-
 <head>
-
-  <!-- Character encoding -->
-
+  <!-- Basic page setup -->
   <meta charset="UTF-8">
-
-  <!-- Makes the site responsive on mobile devices -->
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- SEO description -->
+  <!-- SEO metadata -->
 
-<meta
- name="description"
- content="Explore NASA's Astronomy Picture of the Day.">
-
-  <!-- SEO keywords -->
-
-<meta
- name="keywords"
- content="NASA, APOD, Astronomy, Space, API">
+  <meta name="description" content="Explore NASA's Astronomy Picture of the Day using NASA's APOD API.">
+  <meta name="keywords" content="NASA, APOD, Astronomy, Space, API, JavaScript">
 
   <!-- Browser tab title -->
 
   <title>NASA Astronomy Picture of the Day</title>
 
-  <!-- CSS Files -->
+  <!-- Stylesheets -->
 
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
-
 </head>
 
 <body>
-
-  <!-- Main page container -->
-
+  <!-- Main app container -->
   <main class="container">
 
-
-<!-- ==========================================
-     HERO SECTION
-     ========================================== -->
-
+```
+<!-- Hero section -->
 <header class="hero glass-card">
-
-  <!-- Main page heading -->
   <h1>🚀 NASA Astronomy Picture of the Day</h1>
-
-  <!-- Introductory text -->
   <p class="intro">
-    Explore NASA's daily featured images,
-    videos, and stories from across the universe.
+    Explore NASA's daily featured images, videos, and stories from across the universe.
   </p>
-
 </header>
 
-<!-- ==========================================
-     SEARCH CONTROLS
-     ========================================== -->
+<!-- Search and app controls -->
+<section class="controls glass-card" aria-labelledby="search-heading">
+  <h2 id="search-heading">Search NASA Media</h2>
+  <p class="instruction">Select a date or explore a random NASA feature.</p>
 
-<section
-  class="controls glass-card"
-  aria-labelledby="search-heading">
-
-  <!-- Section heading -->
-  <h2 id="search-heading">
-    Search NASA Media
-  </h2>
-
-  <!-- Instructions for the user -->
-  <p class="instruction">
-    Select a date and click "View NASA Media".
-  </p>
-
-  <!-- Date picker and button -->
+  <!-- Date picker and primary buttons -->
   <div class="form-row">
+    <label for="media-date">Select a Date</label>
+    <input type="date" id="media-date" name="media-date">
 
-    <label for="media-date">
-      Select a Date
-    </label>
-
-    <input
-      type="date"
-      id="media-date"
-      name="media-date">
-
-    <button
-      id="fetch-btn"
-      type="button">
-      View NASA Media
-    </button>
-
+    <button id="fetch-btn" type="button">View NASA Media</button>
+    <button id="random-btn" type="button">Random Date</button>
+    <button id="theme-toggle" type="button">Toggle Theme</button>
   </div>
 
-  <!-- Displays loading and error messages -->
-  <p
-    id="status-message"
-    class="status-message"
-    aria-live="polite">
-  </p>
+  <!-- Loading spinner -->
+  <div id="spinner" class="spinner" hidden>🚀 Loading NASA media...</div>
 
+  <!-- Status and error messages -->
+  <p id="status-message" class="status-message" aria-live="polite"></p>
 </section>
 
-<!-- ==========================================
-     RESULTS SECTION
-     ========================================== -->
+<!-- API results section -->
+<section class="results" aria-live="polite">
 
-<section
-  class="results"
-  aria-live="polite">
-
-  <!-- Media card hidden until API data loads -->
-  <article
-    id="media-card"
-    class="media-card glass-card"
-    hidden>
-
-    <!-- NASA title -->
+  <!-- Media card displays image/title/date/type/copyright -->
+  <article id="media-card" class="media-card glass-card" hidden>
     <h2 id="media-title"></h2>
 
-    <!-- NASA date -->
-    <p
-      id="media-date-display"
-      class="media-date">
-    </p>
+    <div class="meta-grid">
+      <p id="media-date-display" class="media-date"></p>
+      <p id="media-type"></p>
+      <p id="media-copyright"></p>
+    </div>
 
-    <!-- NASA image -->
-    <img
-      id="nasa-media"
-      src=""
-      alt="NASA Astronomy Picture of the Day"
-      hidden>
+    <!-- NASA image renders here -->
+    <img id="nasa-media" src="" alt="NASA Astronomy Picture of the Day" hidden>
 
-    <!-- Video support removed
+    <!-- Message shown if NASA returns video content -->
+    <p id="video-message" class="video-message" hidden></p>
 
-    <iframe
-      id="nasa-video"
-      title="NASA Video of the Day"
-      src=""
-      hidden
-      allowfullscreen>
-    </iframe>
+    <!-- Action buttons shown after data loads -->
+    <div class="action-row">
+      <a id="download-btn" class="action-link" href="#" target="_blank" rel="noopener" hidden>
+        Open / Download Image
+      </a>
 
-    -->
-
+      <button id="share-btn" type="button" hidden>Copy Media Link</button>
+      <button id="favorite-btn" type="button" hidden>Save Favorite</button>
+      <button id="view-favorite-btn" type="button">View Favorite</button>
+    </div>
   </article>
 
-  <!-- ==========================================
-       EXPLANATION CARD
-       ========================================== -->
-
-  <article
-    id="explanation-card"
-    class="text-block glass-card"
-    hidden>
-
-    <!-- Explanation heading -->
+  <!-- Explanation card -->
+  <article id="explanation-card" class="text-block glass-card" hidden>
     <h2>Explanation</h2>
-
-    <!-- NASA explanation text -->
     <p id="media-explanation"></p>
-    <p id="media-copyright"></p>
-
+    <p id="char-count" class="char-count"></p>
   </article>
-
 </section>
 
-<!-- ==========================================
-     FOOTER
-     ========================================== -->
-
+<!-- Footer -->
 <footer class="footer">
-
-  <p>
-    Powered by NASA Open APIs
-  </p>
-
+  <p>Powered by NASA Open APIs</p>
 </footer>
-
+```
 
   </main>
 
-  <!-- Main JavaScript file -->
+  <!-- JavaScript file -->
 
   <script src="js/main.js"></script>
 
 </body>
-
 </html>
