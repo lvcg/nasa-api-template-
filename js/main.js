@@ -1,96 +1,39 @@
-// NASA Astronomy Picture of the Day App
+// Fetch NASA Astronomy Picture of the Day
+document.querySelector('button').addEventListener('click', getFetch)
 
-const API_KEY = 'DEMO_KEY';
+function getFetch() {
+  const choice = document.querySelector('input').value
+  console.log(choice)
 
-// DOM Elements
-const button = document.getElementById('fetch-btn');
-const dateInput = document.getElementById('media-date');
-const image = document.getElementById('nasa-media');
-const video = document.getElementById('nasa-video');
-const title = document.getElementById('media-title');
-const dateDisplay = document.getElementById('media-date-display');
-const explanation = document.getElementById('media-explanation');
-const explanationCard = document.getElementById('explanation-card');
+  const url = `https://api.nasa.gov/planetary/apod?api_key=bVXu64sjdTNsOpvxVmCosAQOme5m5yQIjCc7q4s6&date=${choice}`
 
-// Add button click listener
-button.addEventListener('click', getMedia);
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
 
-function getMedia() {
+      const image = document.querySelector('img')
+      const iframe = document.querySelector('iframe')
+      const explanation = document.querySelector('h3')
 
-const selectedDate = dateInput.value;
+      if (data.media_type === 'image') {
+        image.src = data.url
+        image.style.display = 'block'
 
-if (!selectedDate) {
-alert('Please select a date first.');
-return;
-}
+        iframe.src = ''
+        iframe.style.display = 'none'
+      } else if (data.media_type === 'video') {
+        iframe.src = data.url
+        iframe.style.display = 'block'
 
-button.disabled = true;
-button.textContent = 'Loading...';
+        image.src = ''
+        image.style.display = 'none'
+      }
 
-const url = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=${selectedDate}`;
-
-fetch(url)
-.then(response => {
-if (!response.ok) {
-throw new Error('NASA API request failed');
-}
-return response.json();
-})
-.then(data => {
-
-```
-  console.log(data);
-
-  // Populate content
-  title.textContent = data.title || '';
-  dateDisplay.textContent = data.date || '';
-  explanation.textContent = data.explanation || '';
-
-  // Show explanation section
-  explanationCard.hidden = false;
-
-  // IMAGE RESPONSE
-  if (data.media_type === 'image') {
-
-    image.src = data.url;
-    image.alt = data.title;
-
-    image.hidden = false;
-
-    video.hidden = true;
-    video.src = '';
-  }
-
-  // VIDEO RESPONSE
-  else if (data.media_type === 'video') {
-
-    video.src = data.url;
-
-    video.hidden = false;
-
-    image.hidden = true;
-    image.src = '';
-  }
-
-})
-.catch(error => {
-
-  console.error(error);
-
-  title.textContent = 'Unable to load NASA media';
-  dateDisplay.textContent = '';
-  explanation.textContent =
-    'Please try another date or refresh the page.';
-
-  explanationCard.hidden = false;
-})
-.finally(() => {
-
-  button.disabled = false;
-  button.textContent = 'View NASA Media';
-
-});
-```
-
+      explanation.innerHTML = data.explanation
+    })
+    .catch(err => {
+      console.log(`error ${err}`)
+    })
 }
 
