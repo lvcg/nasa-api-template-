@@ -1,3 +1,1 @@
-window.APP_CONFIG = {
-  NASA_API_KEY: "__NASA_API_KEY__"
-};
+const API_KEY = process.env.NASA_API_KEY
