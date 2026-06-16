@@ -1,23 +1,31 @@
+// NASA APOD API Key
+const API_KEY = 'bVXu64sjdTNsOpvxVmCosAQOme5m5yQIjCc7q4s6';
+
 // DOM Elements
 const button = document.getElementById('fetch-btn');
 const dateInput = document.getElementById('media-date');
 const image = document.getElementById('nasa-media');
 const video = document.getElementById('nasa-video');
 const title = document.getElementById('media-title');
-const explanationCard = document.getElementById('explanation-card');
+const dateDisplay = document.getElementById('media-date-display');
 const explanation = document.getElementById('media-explanation');
+const explanationCard = document.getElementById('explanation-card');
 
-explanationCard.hidden = false;
-explanation.innerText = data.explanation;
+// Add click event listener
+button.addEventListener('click', getMedia);
 
-// NASA API Key
-const API_KEY = 'YOUR_API_KEY';
+// Fetch NASA Media
+function getMedia() {
 
-// Event Listener
-button.addEventListener('click', getFetch);
+  // Prevent empty date searches
+  if (!dateInput.value) {
+    alert('Please select a date.');
+    return;
+  }
 
-// Fetch NASA APOD Data
-function getFetch() {
+  // Show loading state
+  button.disabled = true;
+  button.textContent = 'Loading...';
 
   const selectedDate = dateInput.value;
 
@@ -25,33 +33,64 @@ function getFetch() {
     `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=${selectedDate}`;
 
   fetch(url)
-    .then(response => response.json())
-    .then(data => {
+    .then(response => {
 
-      title.innerText = data.title;
-      dateDisplay.innerText = data.date;
-      explanation.innerText = data.explanation;
-
-      if (data.media_type === 'image') {
-
-        image.src = data.url;
-        image.style.display = 'block';
-
-        video.style.display = 'none';
-        video.src = '';
-
-      } else if (data.media_type === 'video') {
-
-        video.src = data.url;
-        video.style.display = 'block';
-
-        image.style.display = 'none';
-        image.src = '';
-
+      if (!response.ok) {
+        throw new Error('Failed to fetch NASA media');
       }
 
+      return response.json();
     })
+
+    .then(data => {
+
+      console.log(data);
+
+      // Update text content
+      title.textContent = data.title || '';
+      dateDisplay.textContent = data.date || '';
+      explanation.textContent = data.explanation || '';
+
+      // Show explanation card
+      explanationCard.hidden = false;
+
+      // Handle images
+      if (data.media_type === 'image') {
+
+        image.src = data.hdurl || data.url;
+        image.hidden = false;
+
+        video.hidden = true;
+        video.src = '';
+      }
+
+      // Handle videos
+      else if (data.media_type === 'video') {
+
+        video.src = data.url;
+        video.hidden = false;
+
+        image.hidden = true;
+        image.src = '';
+      }
+    })
+
     .catch(error => {
-      console.error('NASA API Error:', error);
+
+      console.error(error);
+
+      title.textContent = 'Unable to load NASA media';
+      dateDisplay.textContent = '';
+      explanation.textContent =
+        'Please try another date or refresh the page.';
+
+      explanationCard.hidden = false;
+    })
+
+    .finally(() => {
+
+      button.disabled = false;
+      button.textContent = 'View NASA Media';
+
     });
 }
