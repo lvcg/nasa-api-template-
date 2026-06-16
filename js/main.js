@@ -3,7 +3,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // NASA API settings
-  const API_KEY = 'bVXu64sjdTNsOpvxVmCosAQOme5m5yQIjCc7q4s6';
+  const API_KEY = 'DEMO_KEY';
   const API_URL = 'https://api.nasa.gov/planetary/apod';
 
   // Button and input elements
