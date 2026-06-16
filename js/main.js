@@ -17,7 +17,7 @@ button.addEventListener('click', getMedia);
 // Fetch NASA Media
 function getMedia() {
 
-  // Prevent empty date searches
+  // Prevent empty date searches 
   if (!dateInput.value) {
     alert('Please select a date.');
     return;
