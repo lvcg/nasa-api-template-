@@ -117,7 +117,7 @@ button:disabled {
 
 .results {
   display: grid;
-  gap: 20px;
+  gap: 10px;
 }
 
 .media-card,
@@ -130,10 +130,10 @@ button:disabled {
 }
 
 #nasa-media,
-#nasa-video {
+#nasa-media {
   width: 100%;
   max-width: 900px;
-  margin: 18px auto 0;
+  margin: 12px auto;
   border-radius: 18px;
   box-shadow: 0 16px 38px rgba(0, 0, 0, 0.45);
 }
