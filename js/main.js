@@ -60,12 +60,12 @@ showStatus('Please select a date first.');
 return;
 }
 
-```
 setLoadingState(true);
 resetMediaDisplay();
 
 try {
-  const url = `${API_URL}?api_key=${API_KEY}&date=${selectedDate}`;
+  const url = API_URL + '?api_key=' + API_KEY + '&date=' + selectedDate;
+
   const response = await fetch(url);
 
   if (!response.ok) {
@@ -79,7 +79,9 @@ try {
   }
 
   currentMedia = data;
+
   renderNASAmedia(data);
+
   showStatus('');
 } catch (error) {
   console.error('NASA API Error:', error);
@@ -87,7 +89,6 @@ try {
 } finally {
   setLoadingState(false);
 }
-```
 
 }
 
@@ -95,13 +96,17 @@ function renderNASAmedia(data) {
 mediaCard.hidden = false;
 explanationCard.hidden = false;
 
-```
 mediaTitle.textContent = data.title || 'NASA Media';
-mediaDate.textContent = `Date: ${data.date || 'N/A'}`;
-mediaType.textContent = `Media Type: ${data.media_type || 'Unknown'}`;
-mediaCopyright.textContent = `Copyright: ${data.copyright || 'NASA Public Domain'}`;
-mediaExplanation.textContent = data.explanation || 'No explanation available.';
-charCount.textContent = `${mediaExplanation.textContent.length} characters`;
+mediaDate.textContent = 'Date: ' + (data.date || 'N/A');
+mediaType.textContent = 'Media Type: ' + (data.media_type || 'Unknown');
+mediaCopyright.textContent =
+  'Copyright: ' + (data.copyright || 'NASA Public Domain');
+
+mediaExplanation.textContent =
+  data.explanation || 'No explanation available.';
+
+charCount.textContent =
+  mediaExplanation.textContent.length + ' characters';
 
 if (data.media_type === 'image') {
   image.src = data.url;
@@ -128,7 +133,6 @@ if (data.media_type === 'image') {
   shareButton.hidden = false;
   favoriteButton.hidden = false;
 }
-```
 
 }
 
@@ -138,29 +142,33 @@ showStatus('No NASA media available to save.');
 return;
 }
 
-```
-localStorage.setItem('favoriteNASAmedia', JSON.stringify(currentMedia));
+localStorage.setItem(
+  'favoriteNASAmedia',
+  JSON.stringify(currentMedia)
+);
+
 showStatus('Favorite saved!');
-```
 
 }
 
 function viewFavorite() {
-const favorite = localStorage.getItem('favoriteNASAmedia');
+const favorite =
+localStorage.getItem('favoriteNASAmedia');
 
-```
 if (!favorite) {
   showStatus('No favorite saved yet.');
   return;
 }
 
 const data = JSON.parse(favorite);
+
 currentMedia = data;
 
 dateInput.value = data.date;
+
 renderNASAmedia(data);
+
 showStatus('Favorite loaded.');
-```
 
 }
 
@@ -170,7 +178,6 @@ showStatus('No media link available to copy.');
 return;
 }
 
-```
 try {
   await navigator.clipboard.writeText(currentMedia.url);
   showStatus('Media link copied!');
@@ -178,31 +185,28 @@ try {
   console.error('Clipboard Error:', error);
   showStatus('Could not copy link.');
 }
-```
 
 }
 
 function toggleTheme() {
 document.body.classList.toggle('light-theme');
 
-```
-const theme = document.body.classList.contains('light-theme')
-  ? 'light'
-  : 'dark';
+const theme =
+  document.body.classList.contains('light-theme')
+    ? 'light'
+    : 'dark';
 
 localStorage.setItem('nasaTheme', theme);
-```
 
 }
 
 function loadThemePreference() {
-const savedTheme = localStorage.getItem('nasaTheme');
+const savedTheme =
+localStorage.getItem('nasaTheme');
 
-```
 if (savedTheme === 'light') {
   document.body.classList.add('light-theme');
 }
-```
 
 }
 
@@ -210,10 +214,10 @@ function setLoadingState(isLoading) {
 fetchButton.disabled = isLoading;
 randomButton.disabled = isLoading;
 
-```
-fetchButton.textContent = isLoading ? 'Loading...' : 'View NASA Media';
+fetchButton.textContent =
+  isLoading ? 'Loading...' : 'View NASA Media';
+
 spinner.hidden = !isLoading;
-```
 
 }
 
@@ -221,7 +225,6 @@ function resetMediaDisplay() {
 mediaCard.hidden = true;
 explanationCard.hidden = true;
 
-```
 image.hidden = true;
 image.src = '';
 
@@ -231,7 +234,6 @@ videoMessage.textContent = '';
 downloadButton.hidden = true;
 shareButton.hidden = true;
 favoriteButton.hidden = true;
-```
 
 }
 
@@ -247,12 +249,13 @@ function getRandomDate() {
 const start = new Date('1995-06-16');
 const end = new Date();
 
-```
 const randomTime =
-  start.getTime() + Math.random() * (end.getTime() - start.getTime());
+  start.getTime() +
+  Math.random() * (end.getTime() - start.getTime());
 
-return new Date(randomTime).toISOString().split('T')[0];
-```
+return new Date(randomTime)
+  .toISOString()
+  .split('T')[0];
 
 }
 });
