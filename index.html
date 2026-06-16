@@ -1,94 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <meta
-        name="description"
-        content="Explore NASA's Astronomy Picture of the Day">
-
-    <title>NASA Astronomy Picture of the Day</title>
-
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore NASA's Astronomy Picture of the Day.">
+  <meta name="keywords" content="NASA, APOD, Astronomy, Space, API">
+  <title>NASA Astronomy Picture of the Day</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
+  <main class="container">
+    <header class="hero">
+      <h1>🚀 NASA Astronomy Picture of the Day</h1>
+      <p class="intro">Explore NASA's daily featured images, videos, and stories from across the universe.</p>
+    </header>
 
-    <main class="container">
+    <section class="controls">
+      <p class="instruction">Select a date and click "View NASA Media".</p>
+      <label for="media-date">Select a Date</label>
+      <input type="date" id="media-date" name="media-date">
+      <button id="fetch-btn" type="button">View NASA Media</button>
+    </section>
 
-        <header>
-            <h1>🚀 NASA Astronomy Picture of the Day</h1>
+    <section class="results">
+      <h2 id="media-title"></h2>
+      <p id="media-date-display"></p>
 
-            <p class="intro">
-                Discover NASA's daily featured images, videos,
-                and stories from across the universe.
-            </p>
-        </header>
+      <img id="nasa-media" src="" alt="NASA Astronomy Picture of the Day" hidden>
 
-        <section class="controls">
+      <iframe id="nasa-video" title="NASA Video" src="" hidden allowfullscreen></iframe>
 
-            <label for="media-date">
-                Select a Date
-            </label>
+      <div class="text-block" id="explanation-card" hidden>
+        <h3>Explanation</h3>
+        <p id="media-explanation"></p>
+      </div>
+    </section>
 
-            <input
-                type="date"
-                id="media-date"
-                name="media-date">
+    <footer>
+      <p>Powered by NASA Open APIs</p>
+    </footer>
+  </main>
 
-            <button
-                type="button"
-                id="fetch-btn">
-                View NASA Media
-            </button>
-
-        </section>
-
-        <section class="results">
-
-            <div id="loading" hidden>
-                Loading NASA Media...
-            </div>
-
-            <div id="error-message" hidden>
-                Unable to load NASA media.
-            </div>
-
-            <h2 id="media-title"></h2>
-
-            <p id="media-date-display"></p>
-
-            <img
-                id="nasa-media"
-                src=""
-                alt="NASA Astronomy Picture of the Day"
-                style="display:none;">
-
-            <iframe
-                id="nasa-video"
-                title="NASA Video"
-                src=""
-                style="display:none;"
-                allowfullscreen>
-            </iframe>
-
-         
-        </section>
-
-        <footer>
-            <p>
-                Powered by NASA Open APIs
-            </p>
-        </footer>
-
-    </main>
-
-    <script src="js/main.js"></script>
-
+  <script src="js/main.js"></script>
 </body>
 </html>
 
