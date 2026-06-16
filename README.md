@@ -171,11 +171,6 @@ Olivia Robinson
 GitHub:
 https://github.com/lvcg
 
-Portfolio:
-Add Portfolio URL
-
-LinkedIn:
-Add LinkedIn URL
 
 ---
 
