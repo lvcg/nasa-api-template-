@@ -1,78 +1,247 @@
-/**
+// NASA Astronomy Picture of the Day App
+// Uses async/await and matches the HTML IDs
 
-Display NASA media and information on the page
-@param {Object} data - NASA APOD API response object
-*/
-function renderNASAmedia(data) {
+document.addEventListener('DOMContentLoaded', () => {
+  // NASA API settings
+  const API_KEY = 'bVXu64sjdTNsOpvxVmCosAQOme5m5yQIjCc7q4s6';
+  const API_URL = 'https://api.nasa.gov/planetary/apod';
 
-// Show the hidden cards
-mediaCard.hidden = false;
-explanationCard.hidden = false;
+  // Button and input elements
+  const fetchButton = document.querySelector('#fetch-btn');
+  const randomButton = document.querySelector('#random-btn');
+  const themeToggle = document.querySelector('#theme-toggle');
+  const dateInput = document.querySelector('#media-date');
 
-// Display media title
-mediaTitle.textContent =
-data.title || 'NASA Media';
+  // Status and loading elements
+  const statusMessage = document.querySelector('#status-message');
+  const spinner = document.querySelector('#spinner');
 
-// Display the date of the APOD
-mediaDate.textContent =
-'Date: ' + (data.date || 'N/A');
+  // Result cards
+  const mediaCard = document.querySelector('#media-card');
+  const explanationCard = document.querySelector('#explanation-card');
 
-// Display media type (image or video)
-mediaType.textContent =
-'Media Type: ' + (data.media_type || 'Unknown');
+  // NASA content elements
+  const mediaTitle = document.querySelector('#media-title');
+  const mediaDate = document.querySelector('#media-date-display');
+  const mediaType = document.querySelector('#media-type');
+  const mediaCopyright = document.querySelector('#media-copyright');
+  const mediaExplanation = document.querySelector('#media-explanation');
+  const image = document.querySelector('#nasa-media');
+  const videoMessage = document.querySelector('#video-message');
 
-// Display copyright information if available
-mediaCopyright.textContent =
-'Copyright: ' +
-(data.copyright || 'NASA Public Domain');
+  // Action buttons
+  const downloadButton = document.querySelector('#download-btn');
+  const shareButton = document.querySelector('#share-btn');
+  const favoriteButton = document.querySelector('#favorite-btn');
+  const viewFavoriteButton = document.querySelector('#view-favorite-btn');
 
-// Display NASA explanation text
-mediaExplanation.textContent =
-data.explanation || 'No explanation available.';
+  // Stores the current NASA API response
+  let currentMedia = null;
 
-// If NASA returns an image
-if (data.media_type === 'image') {
+  // Set today's date as the default
+  const today = getTodayDate();
+  dateInput.value = today;
+  dateInput.max = today;
 
-// Set image source
-image.src = data.url;
+  // Load saved theme and today's media
+  loadThemePreference();
+  getNASAmedia(today);
 
-// Add descriptive alt text
-image.alt =
-  data.title ||
-  'NASA Astronomy Picture of the Day';
+  // Event listeners
+  fetchButton.addEventListener('click', () => {
+    getNASAmedia(dateInput.value);
+  });
 
-// Show image
-image.hidden = false;
+  randomButton.addEventListener('click', () => {
+    const randomDate = getRandomDate();
+    dateInput.value = randomDate;
+    getNASAmedia(randomDate);
+  });
 
-// Hide video message
-videoMessage.hidden = true;
-videoMessage.textContent = '';
+  themeToggle.addEventListener('click', toggleTheme);
+  shareButton.addEventListener('click', copyMediaLink);
+  favoriteButton.addEventListener('click', saveFavorite);
+  viewFavoriteButton.addEventListener('click', viewFavorite);
 
-// Enable action buttons
-downloadButton.href =
-  data.hdurl || data.url;
+  // Fetch NASA media by date
+  async function getNASAmedia(selectedDate) {
+    if (!selectedDate) {
+      showStatus('Please select a date first.');
+      return;
+    }
 
-downloadButton.hidden = false;
-shareButton.hidden = false;
-favoriteButton.hidden = false;
+    setLoadingState(true);
+    resetMediaDisplay();
 
-} else {
+    try {
+      const url = API_URL + '?api_key=' + API_KEY + '&date=' + selectedDate;
+      const response = await fetch(url);
 
-// Hide image if media is not an image
-image.hidden = true;
-image.src = '';
+      if (!response.ok) {
+        throw new Error('NASA API request failed.');
+      }
 
-// Show message for video content
-videoMessage.textContent =
-  'This date returned a video instead of an image. Try another date or copy the media link.';
+      const data = await response.json();
 
-videoMessage.hidden = false;
+      if (data.code || data.msg) {
+        throw new Error(data.msg || 'NASA returned an error.');
+      }
 
-// Enable action buttons
-downloadButton.href = data.url;
-downloadButton.hidden = false;
-shareButton.hidden = false;
-favoriteButton.hidden = false;
+      currentMedia = data;
+      renderNASAmedia(data);
+      showStatus('');
+    } catch (error) {
+      console.error('NASA API Error:', error);
+      showStatus('Unable to load NASA media. Please try another date.');
+    } finally {
+      setLoadingState(false);
+    }
+  }
 
-}
-}
+  // Render NASA data into the DOM
+  function renderNASAmedia(data) {
+    mediaCard.hidden = false;
+    explanationCard.hidden = false;
+
+    mediaTitle.textContent = data.title || 'NASA Media';
+    mediaDate.textContent = 'Date: ' + (data.date || 'N/A');
+    mediaType.textContent = 'Media Type: ' + (data.media_type || 'Unknown');
+    mediaCopyright.textContent = 'Copyright: ' + (data.copyright || 'NASA Public Domain');
+    mediaExplanation.textContent = data.explanation || 'No explanation available.';
+
+    if (data.media_type === 'image') {
+      image.src = data.url;
+      image.alt = data.title || 'NASA Astronomy Picture of the Day';
+      image.hidden = false;
+
+      videoMessage.hidden = true;
+      videoMessage.textContent = '';
+
+      downloadButton.href = data.hdurl || data.url;
+      downloadButton.hidden = false;
+      shareButton.hidden = false;
+      favoriteButton.hidden = false;
+    } else {
+      image.hidden = true;
+      image.src = '';
+
+      videoMessage.textContent =
+        'This date returned a video instead of an image. Try another date or copy the media link.';
+      videoMessage.hidden = false;
+
+      downloadButton.href = data.url;
+      downloadButton.hidden = false;
+      shareButton.hidden = false;
+      favoriteButton.hidden = false;
+    }
+  }
+
+  // Save current media to localStorage
+  function saveFavorite() {
+    if (!currentMedia) {
+      showStatus('No NASA media available to save.');
+      return;
+    }
+
+    localStorage.setItem('favoriteNASAmedia', JSON.stringify(currentMedia));
+    showStatus('Favorite saved!');
+  }
+
+  // Load favorite media from localStorage
+  function viewFavorite() {
+    const favorite = localStorage.getItem('favoriteNASAmedia');
+
+    if (!favorite) {
+      showStatus('No favorite saved yet.');
+      return;
+    }
+
+    const data = JSON.parse(favorite);
+    currentMedia = data;
+    dateInput.value = data.date;
+
+    renderNASAmedia(data);
+    showStatus('Favorite loaded.');
+  }
+
+  // Copy the current media link
+  async function copyMediaLink() {
+    if (!currentMedia || !currentMedia.url) {
+      showStatus('No media link available to copy.');
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(currentMedia.url);
+      showStatus('Media link copied!');
+    } catch (error) {
+      console.error('Clipboard Error:', error);
+      showStatus('Could not copy link.');
+    }
+  }
+
+  // Toggle light and dark theme
+  function toggleTheme() {
+    document.body.classList.toggle('light-theme');
+
+    const theme = document.body.classList.contains('light-theme')
+      ? 'light'
+      : 'dark';
+
+    localStorage.setItem('nasaTheme', theme);
+  }
+
+  // Load saved theme from localStorage
+  function loadThemePreference() {
+    const savedTheme = localStorage.getItem('nasaTheme');
+
+    if (savedTheme === 'light') {
+      document.body.classList.add('light-theme');
+    }
+  }
+
+  // Show or hide loading state
+  function setLoadingState(isLoading) {
+    fetchButton.disabled = isLoading;
+    randomButton.disabled = isLoading;
+    fetchButton.textContent = isLoading ? 'Loading...' : 'View NASA Media';
+    spinner.hidden = !isLoading;
+  }
+
+  // Hide old media before loading new data
+  function resetMediaDisplay() {
+    mediaCard.hidden = true;
+    explanationCard.hidden = true;
+
+    image.hidden = true;
+    image.src = '';
+
+    videoMessage.hidden = true;
+    videoMessage.textContent = '';
+
+    downloadButton.hidden = true;
+    shareButton.hidden = true;
+    favoriteButton.hidden = true;
+  }
+
+  // Show status message to user
+  function showStatus(message) {
+    statusMessage.textContent = message;
+  }
+
+  // Format today's date as YYYY-MM-DD
+  function getTodayDate() {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  // Generate random NASA APOD date
+  function getRandomDate() {
+    const start = new Date('1995-06-16');
+    const end = new Date();
+
+    const randomTime =
+      start.getTime() + Math.random() * (end.getTime() - start.getTime());
+
+    return new Date(randomTime).toISOString().split('T')[0];
+  }
+});
