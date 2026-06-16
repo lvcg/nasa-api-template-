@@ -17,6 +17,8 @@ function getFetch() {
   const dateDisplay = document.querySelector('#media-date-display');
   const image = document.querySelector('#nasa-media');
   const explanation = document.querySelector('#media-explanation');
+  const copyright = document.querySelector('#media-copyright').innerText =
+  data.copyright || 'NASA Public Domain';
 
   // Stop the function if no date is selected
   if (!choice) {
