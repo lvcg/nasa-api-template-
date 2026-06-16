@@ -1,66 +1,193 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
+  <!-- Character encoding -->
+
   <meta charset="UTF-8">
+
+  <!-- Makes the site responsive on mobile devices -->
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Explore NASA's Astronomy Picture of the Day.">
-  <meta name="keywords" content="NASA, APOD, Astronomy, Space, API">
+
+  <!-- SEO description -->
+
+<meta
+ name="description"
+ content="Explore NASA's Astronomy Picture of the Day.">
+
+  <!-- SEO keywords -->
+
+<meta
+ name="keywords"
+ content="NASA, APOD, Astronomy, Space, API">
+
+  <!-- Browser tab title -->
+
   <title>NASA Astronomy Picture of the Day</title>
+
+  <!-- CSS Files -->
+
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
+
 </head>
+
 <body>
+
+  <!-- Main page container -->
+
   <main class="container">
-    <header class="hero glass-card">
-      <h1>🚀 NASA Astronomy Picture of the Day</h1>
-      <p class="intro">Explore NASA's daily featured images, videos, and stories from across the universe.</p>
-    </header>
 
-    <section class="controls glass-card" aria-labelledby="search-heading">
-      <h2 id="search-heading">Search NASA Media</h2>
-      <p class="instruction">Select a date and click "View NASA Media".</p>
+```
+<!-- ==========================================
+     HERO SECTION
+     ========================================== -->
 
-      <div class="form-row">
-        <label for="media-date">Select a Date</label>
-        <input type="date" id="media-date" name="media-date">
-        <button id="fetch-btn" type="button">View NASA Media</button>
-      </div>
+<header class="hero glass-card">
 
-      <p id="status-message" class="status-message" aria-live="polite"></p>
-    </section>
+  <!-- Main page heading -->
+  <h1>🚀 NASA Astronomy Picture of the Day</h1>
 
-      
-    <section class="results" aria-live="polite">
-      <article id="media-card" class="media-card glass-card" hidden>
-        <h2 id="media-title"></h2>
-        <p id="media-date-display" class="media-date"></p>
-        <img id="nasa-media" src="" alt="NASA Astronomy Picture of the Day" hidden>
-        <!--
-<iframe
-  id="nasa-video"
-  title="NASA Video of the Day"
-  src=""
-  hidden
-  allowfullscreen>
-</iframe>
--->
-      </article>
-    
+  <!-- Introductory text -->
+  <p class="intro">
+    Explore NASA's daily featured images,
+    videos, and stories from across the universe.
+  </p>
 
-      
-      <article id="explanation-card" class="text-block glass-card" hidden>
-        <h2>Explanation</h2>
-        <p id="media-explanation"></p>
-      </article>
-    </section>
+</header>
 
-    <footer class="footer">
-      <p>Powered by NASA Open APIs</p>
-    </footer>
+<!-- ==========================================
+     SEARCH CONTROLS
+     ========================================== -->
+
+<section
+  class="controls glass-card"
+  aria-labelledby="search-heading">
+
+  <!-- Section heading -->
+  <h2 id="search-heading">
+    Search NASA Media
+  </h2>
+
+  <!-- Instructions for the user -->
+  <p class="instruction">
+    Select a date and click "View NASA Media".
+  </p>
+
+  <!-- Date picker and button -->
+  <div class="form-row">
+
+    <label for="media-date">
+      Select a Date
+    </label>
+
+    <input
+      type="date"
+      id="media-date"
+      name="media-date">
+
+    <button
+      id="fetch-btn"
+      type="button">
+      View NASA Media
+    </button>
+
+  </div>
+
+  <!-- Displays loading and error messages -->
+  <p
+    id="status-message"
+    class="status-message"
+    aria-live="polite">
+  </p>
+
+</section>
+
+<!-- ==========================================
+     RESULTS SECTION
+     ========================================== -->
+
+<section
+  class="results"
+  aria-live="polite">
+
+  <!-- Media card hidden until API data loads -->
+  <article
+    id="media-card"
+    class="media-card glass-card"
+    hidden>
+
+    <!-- NASA title -->
+    <h2 id="media-title"></h2>
+
+    <!-- NASA date -->
+    <p
+      id="media-date-display"
+      class="media-date">
+    </p>
+
+    <!-- NASA image -->
+    <img
+      id="nasa-media"
+      src=""
+      alt="NASA Astronomy Picture of the Day"
+      hidden>
+
+    <!-- Video support removed
+
+    <iframe
+      id="nasa-video"
+      title="NASA Video of the Day"
+      src=""
+      hidden
+      allowfullscreen>
+    </iframe>
+
+    -->
+
+  </article>
+
+  <!-- ==========================================
+       EXPLANATION CARD
+       ========================================== -->
+
+  <article
+    id="explanation-card"
+    class="text-block glass-card"
+    hidden>
+
+    <!-- Explanation heading -->
+    <h2>Explanation</h2>
+
+    <!-- NASA explanation text -->
+    <p id="media-explanation"></p>
+
+  </article>
+
+</section>
+
+<!-- ==========================================
+     FOOTER
+     ========================================== -->
+
+<footer class="footer">
+
+  <p>
+    Powered by NASA Open APIs
+  </p>
+
+</footer>
+```
+
   </main>
 
+  <!-- Main JavaScript file -->
+
   <script src="js/main.js"></script>
+
 </body>
+
 </html>
-
-
