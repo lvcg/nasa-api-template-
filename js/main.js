@@ -4,8 +4,11 @@ const dateInput = document.getElementById('media-date');
 const image = document.getElementById('nasa-media');
 const video = document.getElementById('nasa-video');
 const title = document.getElementById('media-title');
-const dateDisplay = document.getElementById('media-date-display');
+const explanationCard = document.getElementById('explanation-card');
 const explanation = document.getElementById('media-explanation');
+
+explanationCard.hidden = false;
+explanation.innerText = data.explanation;
 
 // NASA API Key
 const API_KEY = 'YOUR_API_KEY';
