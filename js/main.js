@@ -13,22 +13,19 @@ function getFetch() {
       const iframe = document.querySelector('iframe')
       const explanation = document.querySelector('h3')
 
-      image.src = ''
-      iframe.src = ''
-
       if (data.media_type === 'image') {
         image.src = data.url
         image.style.display = 'block'
         iframe.style.display = 'none'
+        iframe.src = ''
       } else if (data.media_type === 'video') {
         iframe.src = data.url
         iframe.style.display = 'block'
         image.style.display = 'none'
+        image.src = ''
       }
 
       explanation.innerText = data.explanation
     })
-    .catch(err => {
-      console.log(`error ${err}`)
-    })
+    .catch(err => console.log(`error ${err}`))
 }
