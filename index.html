@@ -1,65 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="description" content="A simple Picture of the Day app using NASA's API">
-    <meta name="keywords" content="NASA, API, Picture of the Day, Astronomy, Space">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <h1>🚀 NASA Astronomy Picture of the Day</h1>
+    <meta
+        name="description"
+        content="Explore NASA's Astronomy Picture of the Day">
 
-    <!-- external CSS link -->
+    <title>NASA Astronomy Picture of the Day</title>
+
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
-  </head>
-  <body>
+</head>
+
+<body>
+
     <main class="container">
 
-  <header>
-    <h1>🚀 NASA Astronomy Picture of the Day</h1>
-    <p>
-      Explore NASA's daily featured image and story.
-    </p>
-  </header>
+        <header>
+            <h1>🚀 NASA Astronomy Picture of the Day</h1>
 
-  <section class="controls">
-    <label for="media-date">
-      Select a Date
-    </label>
+            <p class="intro">
+                Discover NASA's daily featured images, videos,
+                and stories from across the universe.
+            </p>
+        </header>
 
-    <input type="date" id="media-date">
+        <section class="controls">
 
-    <button>
-      View NASA Media
-    </button>
-  </section>
+            <label for="media-date">
+                Select a Date
+            </label>
 
-  <section class="media-display">
+            <input
+                type="date"
+                id="media-date"
+                name="media-date">
 
-    <div id="loading" hidden>
-      Loading...
-    </div>
+            <button
+                type="button"
+                id="fetch-btn">
+                View NASA Media
+            </button>
 
-    <img
-      id="nasa-media"
-      hidden
-      alt="NASA Media">
+        </section>
 
-    <iframe
-      id="nasa-video"
-      hidden
-      title="NASA Video">
-    </iframe>
+        <section class="results">
 
-    <h2 id="media-title"></h2>
+            <div id="loading" hidden>
+                Loading NASA Media...
+            </div>
 
-    <div id="media-explanation"></div>
+            <div id="error-message" hidden>
+                Unable to load NASA media.
+            </div>
 
-  </section>
+            <h2 id="media-title"></h2>
 
-  <footer>
-    Powered by NASA Open APIs
-  </footer>
+            <p id="media-date-display"></p>
 
-</main>
+            <img
+                id="nasa-media"
+                src=""
+                alt="NASA Astronomy Picture of the Day"
+                style="display:none;">
+
+            <iframe
+                id="nasa-video"
+                title="NASA Video"
+                src=""
+                style="display:none;"
+                allowfullscreen>
+            </iframe>
+
+            <div class="text-block">
+
+                <h3>Explanation</h3>
+
+                <p id="media-explanation">
+                    Select a date and click the button to load NASA media.
+                </p>
+
+            </div>
+
+        </section>
+
+        <footer>
+            <p>
+                Powered by NASA Open APIs
+            </p>
+        </footer>
+
+    </main>
+
+    <script src="js/main.js"></script>
+
+</body>
 </html>
 
